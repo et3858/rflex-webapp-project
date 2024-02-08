@@ -1,0 +1,6 @@
+export const enum ReduxActionType {
+    FILL_LIST = 'FILL_LIST',
+    CLEAR_LIST = 'CLEAR_LIST',
+    UPDATE_ELEMENT = 'UPDATE_ELEMENT',
+    REMOVE_ELEMENT = 'REMOVE_ELEMENT',
+}
