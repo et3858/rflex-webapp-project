@@ -9,6 +9,7 @@ import { ReduxActionType } from './enums/redux-enums';
 
 import LineChart from './components/ag_charts/LineChart';
 import AreaChart from './components/ag_charts/AreaChart';
+import Table from './components/ag-grid/Table';
 
 import './App.css';
 
@@ -97,6 +98,10 @@ function App() {
                 series={AREA_SERIES}
                 data={dollars}
             />
+
+            <div>
+                <Table />
+            </div>
 
             <div>
                 <button onClick={handleUpdateList}>Update list</button>
