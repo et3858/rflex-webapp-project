@@ -83,7 +83,7 @@ function App() {
                 <tbody>
                 {dollars.map((e: DollarType) => (
                     <tr key={e.id}>
-                        <td>{e.date.toString()}</td>
+                        <td>{new Date(e.date).toDateString()}</td>
                         <td>{e.value}</td>
                         <td>
                             <button onClick={() => handleUpdateElement(e)}>Actualizar</button>
