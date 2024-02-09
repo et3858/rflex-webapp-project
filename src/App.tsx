@@ -7,6 +7,7 @@ import { DollarType } from './types';
 import { ReduxActionType } from './enums/redux-enums';
 
 import LineChart from './components/ag_charts/LineChart';
+import AreaChart from './components/ag_charts/AreaChart';
 
 
 import './App.css';
@@ -71,6 +72,9 @@ function App() {
     return (
         <>
             <LineChart />
+
+
+            <AreaChart />
 
             <div>
                 <button onClick={handleUpdateList}>Update list</button>
