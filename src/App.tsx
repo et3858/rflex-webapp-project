@@ -16,25 +16,30 @@ function App() {
 
 
     useEffect(() => {
-        const startRequest = async () => {
-            const params = { start_date: startDate, end_date: endDate };
-
-            try {
-                const response = await getRequest("", params);
-
-                dispatch({
-                    type: ReduxActionType.FILL_LIST,
-                    payload: response
-                });
-            } catch (err) {
-                console.warn(err);
-            }
-        };
-
-        if (dollars.length === 0) {
+        if (dollars.length === 0)
             startRequest();
-        }
     }, []);
+
+
+    const startRequest = async () => {
+        const params = { start_date: startDate, end_date: endDate };
+
+        try {
+            const response = await getRequest("", params);
+
+            dispatch({
+                type: ReduxActionType.FILL_LIST,
+                payload: response
+            });
+        } catch (err) {
+            console.warn(err);
+        }
+    };
+
+
+    const handleUpdateList = async () => {
+        startRequest();
+    };
 
 
     const handleClearList = () => {
@@ -61,8 +66,10 @@ function App() {
 
     return (
         <>
-
-            <button onClick={handleClearList}>Clear list</button>
+            <div>
+                <button onClick={handleUpdateList}>Update list</button>
+                <button onClick={handleClearList}>Clear list</button>
+            </div>
 
             <table>
                 <thead>
