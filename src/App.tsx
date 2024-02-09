@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { AgAreaSeriesOptions, AgLineSeriesOptions } from "ag-charts-community";
 
 import { RootStateType } from './redux/reducers/rootReducer';
 import { getRequest } from './api';
@@ -9,8 +10,22 @@ import { ReduxActionType } from './enums/redux-enums';
 import LineChart from './components/ag_charts/LineChart';
 import AreaChart from './components/ag_charts/AreaChart';
 
-
 import './App.css';
+
+const AREA_SERIES: AgAreaSeriesOptions[] = [{
+    type: "area",
+    xKey: "date",
+    yKey: "value",
+    yName: "Dollars"
+}];
+
+
+const LINE_SERIES: AgLineSeriesOptions[] = [{
+    type: "line",
+    xKey: "date",
+    yKey: "value",
+    yName: "Dollars"
+}];
 
 function App() {
     const dollars: DollarType[] = useSelector((state: RootStateType) => state.list.dollars);
@@ -71,10 +86,17 @@ function App() {
 
     return (
         <>
-            <LineChart />
+            <LineChart
+                title={'My line chart of dollars'}
+                series={LINE_SERIES}
+                data={dollars}
+            />
 
-
-            <AreaChart />
+            <AreaChart
+                title={'My area chart of dollars'}
+                series={AREA_SERIES}
+                data={dollars}
+            />
 
             <div>
                 <button onClick={handleUpdateList}>Update list</button>
