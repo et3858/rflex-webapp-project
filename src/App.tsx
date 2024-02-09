@@ -5,6 +5,10 @@ import { RootStateType } from './redux/reducers/rootReducer';
 import { getRequest } from './api';
 import { DollarType } from './types';
 import { ReduxActionType } from './enums/redux-enums';
+
+import LineChart from './components/charts/LineChart';
+
+
 import './App.css';
 
 function App() {
@@ -66,6 +70,8 @@ function App() {
 
     return (
         <>
+            <LineChart />
+
             <div>
                 <button onClick={handleUpdateList}>Update list</button>
                 <button onClick={handleClearList}>Clear list</button>
