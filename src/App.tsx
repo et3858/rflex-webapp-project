@@ -138,40 +138,12 @@ function App() {
                 <button onClick={handleUpdateList}>Update list</button>
             </div>
 
-            <div>
-                <Table
-                    colDefs={COL_DEFS}
-                    rowData={dollars}
-                    onCellValueChanged={(e: DollarType) => handleUpdateElement(e)}
-                    onSelectionChanged={(data: DollarType[]) => handleSelectionChanged(data)}
-                />
-            </div>
-
-
-            {/*
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Value</th>
-                        <th>Options</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                {dollars.map((e: DollarType) => (
-                    <tr key={e.id}>
-                        <td>{new Date(e.date).toDateString()}</td>
-                        <td>{e.value}</td>
-                        <td>
-                            <button onClick={() => handleUpdateElement(e)}>Actualizar</button>
-                            <button onClick={() => handleRevomeElement(e)}>Borrar</button>
-                        </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            */}
+            <Table
+                colDefs={COL_DEFS}
+                rowData={dollars}
+                onCellValueChanged={(e: DollarType) => handleUpdateElement(e)}
+                onSelectionChanged={(data: DollarType[]) => handleSelectionChanged(data)}
+            />
         </>
     );
 }
