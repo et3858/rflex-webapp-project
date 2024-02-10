@@ -35,6 +35,8 @@ const COL_DEFS: ColDef[] = [
         field: 'value',
         headerName: "Valor del dolar",
         editable: true,
+        headerCheckboxSelection: true,
+        checkboxSelection: true,
         cellEditor: 'agNumberCellEditor',
         cellEditorParams: {
             min: 0,

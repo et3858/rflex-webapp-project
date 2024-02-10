@@ -38,6 +38,7 @@ function Table({ colDefs, rowData, onCellValueChanged }: IProps) {
                 rowData={rowData}
                 columnDefs={colDefs}
                 onCellValueChanged={handleCellValueChanged}
+                rowSelection={'multiple'}
             />
         </div>
     );
