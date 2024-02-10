@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AgAreaSeriesOptions, AgLineSeriesOptions } from "ag-charts-community";
-import { ColDef } from 'ag-grid-community';
+import { ColDef, INumberCellEditorParams } from 'ag-grid-community';
 
 import { RootStateType } from './redux/reducers/rootReducer';
 import { getRequest } from './api';
@@ -31,8 +31,22 @@ const LINE_SERIES: AgLineSeriesOptions[] = [{
 
 
 const COL_DEFS: ColDef[] = [
-    { field: 'value' },
-    { field: 'date' },
+    {
+        field: 'value',
+        headerName: "Valor del dolar",
+        editable: true,
+        cellEditor: 'agNumberCellEditor',
+        cellEditorParams: {
+            min: 0,
+            max: 99999,
+            precision: 2,
+            preventStepping: true,
+        } as INumberCellEditorParams,
+    },
+    {
+        field: 'date',
+        headerName: "Fecha",
+    },
 ];
 
 
@@ -80,7 +94,7 @@ function App() {
         dispatch({
             type: ReduxActionType.UPDATE_ELEMENT,
             dollar_id: e.id,
-            payload: { value: 999.99 }
+            payload: { ...e }
         })
     };
 
@@ -108,7 +122,11 @@ function App() {
             />
 
             <div>
-                <Table colDefs={COL_DEFS} rowData={dollars} />
+                <Table
+                    colDefs={COL_DEFS}
+                    rowData={dollars}
+                    onCellValueChanged={(e: DollarType) => handleUpdateElement(e)}
+                />
             </div>
 
             <div>

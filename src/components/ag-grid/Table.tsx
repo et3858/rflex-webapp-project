@@ -1,5 +1,5 @@
 import { AgGridReact } from 'ag-grid-react';
-import { ColDef } from 'ag-grid-community';
+import { CellValueChangedEvent, ColDef } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 
@@ -13,11 +13,18 @@ interface IRow {
 
 interface IProps {
     colDefs: ColDef[],
-    rowData: Array<{[key: string]: any}>
+    rowData: Array<{[key: string]: any}>,
+    onCellValueChanged?: Function,
 }
 
 // Create new Table component
-function Table({ colDefs, rowData }: IProps) {
+function Table({ colDefs, rowData, onCellValueChanged }: IProps) {
+    const handleCellValueChanged = (e: CellValueChangedEvent) => {
+        if (typeof onCellValueChanged === 'function') {
+            onCellValueChanged(e.data);
+        }
+    };
+
     return (
         /*
         <div
@@ -30,6 +37,7 @@ function Table({ colDefs, rowData }: IProps) {
             <AgGridReact
                 rowData={rowData}
                 columnDefs={colDefs}
+                onCellValueChanged={handleCellValueChanged}
             />
         </div>
     );
