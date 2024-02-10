@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AgAreaSeriesOptions, AgLineSeriesOptions } from "ag-charts-community";
+import { AgLineSeriesOptions } from "ag-charts-community";
 import { ColDef, INumberCellEditorParams } from 'ag-grid-community';
 
 import { RootStateType } from './redux/reducers/rootReducer';
@@ -10,19 +10,12 @@ import { ReduxActionType } from './enums/redux-enums';
 import { formatDateString } from './utils';
 
 import LineChart from './components/ag_charts/LineChart';
-import AreaChart from './components/ag_charts/AreaChart';
 import Table from './components/ag-grid/Table';
 import DatePicker from './components/DatePicker';
 import Button from './components/Button';
 
+import 'rsuite/dist/rsuite.min.css';
 import './App.css';
-
-const AREA_SERIES: AgAreaSeriesOptions[] = [{
-    type: "area",
-    xKey: "date",
-    yKey: "value",
-    yName: "Dollars"
-}];
 
 
 const LINE_SERIES: AgLineSeriesOptions[] = [{
@@ -36,7 +29,9 @@ const LINE_SERIES: AgLineSeriesOptions[] = [{
 const COL_DEFS: ColDef[] = [
     {
         field: 'value',
-        headerName: "Valor del dolar",
+        headerName: "Dolar value",
+        filter: true,
+        minWidth: 250,
         editable: true,
         headerCheckboxSelection: true,
         checkboxSelection: true,
@@ -50,7 +45,9 @@ const COL_DEFS: ColDef[] = [
     },
     {
         field: 'date',
-        headerName: "Fecha",
+        headerName: "Date",
+        filter: true,
+        minWidth: 250,
     },
 ];
 
@@ -97,11 +94,6 @@ function App() {
     };
 
 
-    const handleUpdateList = async () => {
-        startRequest();
-    };
-
-
     const handleClearList = () => {
         dispatch({ type: ReduxActionType.CLEAR_LIST });
     };
@@ -143,17 +135,36 @@ function App() {
                 display: 'flex',
                 alignItems: 'left',
                 gap: '4px',
-                marginBottom: '8px',
+                marginTop: '12px',
+                marginBottom: '12px',
             }}>
+                <Button
+                    color="orange"
+                    appearance="primary"
+                    onClick={handleRevomeSelected}
+                    disabled={!selectedRows.length}
+                >
+                    Remove seleted
+                </Button>
+
+                <Button
+                    color="red"
+                    appearance="primary"
+                    onClick={handleClearList}
+                    disabled={!dollars?.length}
+                >
+                    Clear list
+                </Button>
+
                 <DatePicker
                     value={startDate}
-                    placeholder='Selecciona una fecha'
+                    placeholder='Select a date'
                     onChange={((e: Date) => setStartDate(e))}
                 />
 
                 <DatePicker
                     value={endDate}
-                    placeholder='Selecciona una fecha'
+                    placeholder='Select a date'
                     onChange={((e: Date) => setEndDate(e))}
                 />
 
@@ -163,7 +174,7 @@ function App() {
                     onClick={handleClick}
                     disabled={!validDates}
                 >
-                    Buscar
+                    Search
                 </Button>
             </div>
 
@@ -172,18 +183,6 @@ function App() {
                 series={LINE_SERIES}
                 data={dollars}
             />
-
-            <AreaChart
-                title={'My area chart of dollars'}
-                series={AREA_SERIES}
-                data={dollars}
-            />
-
-            <div>
-                <button onClick={handleRevomeSelected} disabled={!selectedRows.length}>Remove selected</button>
-                <button onClick={handleClearList}>Clear list</button>
-                <button onClick={handleUpdateList}>Update list</button>
-            </div>
 
             <Table
                 colDefs={COL_DEFS}
