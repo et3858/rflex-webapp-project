@@ -1,5 +1,5 @@
 import { AgGridReact } from 'ag-grid-react';
-import { CellValueChangedEvent, ColDef } from 'ag-grid-community';
+import { CellValueChangedEvent, ColDef, SelectionChangedEvent } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
 
@@ -15,13 +15,27 @@ interface IProps {
     colDefs: ColDef[],
     rowData: Array<{[key: string]: any}>,
     onCellValueChanged?: Function,
+    onSelectionChanged?: Function,
 }
 
 // Create new Table component
-function Table({ colDefs, rowData, onCellValueChanged }: IProps) {
+function Table({
+    colDefs,
+    rowData,
+    onCellValueChanged,
+    onSelectionChanged,
+}: IProps) {
     const handleCellValueChanged = (e: CellValueChangedEvent) => {
         if (typeof onCellValueChanged === 'function') {
             onCellValueChanged(e.data);
+        }
+    };
+
+
+    const handleSelectionChanged = (e: SelectionChangedEvent) => {
+        if (typeof onSelectionChanged === 'function') {
+            const data = e.api.getSelectedNodes().map(rowNode => rowNode.data);
+            onSelectionChanged(data);
         }
     };
 
@@ -39,6 +53,7 @@ function Table({ colDefs, rowData, onCellValueChanged }: IProps) {
                 columnDefs={colDefs}
                 onCellValueChanged={handleCellValueChanged}
                 rowSelection={'multiple'}
+                onSelectionChanged={handleSelectionChanged}
             />
         </div>
     );

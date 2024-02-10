@@ -58,6 +58,7 @@ function App() {
 
     const [startDate] = useState<string>("2024-01-25");
     const [endDate] = useState<string>("2024-02-08");
+    const [selectedRows, setSelectedRows] = useState<number[]>([]);
 
 
     useEffect(() => {
@@ -97,15 +98,23 @@ function App() {
             type: ReduxActionType.UPDATE_ELEMENT,
             dollar_id: e.id,
             payload: { ...e }
-        })
+        });
     };
 
 
-    const handleRevomeElement = (e: DollarType) => {
-        dispatch({
-            type: ReduxActionType.REMOVE_ELEMENT,
-            dollar_id: e.id,
-        })
+    const handleRevomeSelected = () => {
+        selectedRows.forEach(dollar_id => {
+            dispatch({
+                type: ReduxActionType.REMOVE_ELEMENT,
+                dollar_id,
+            });
+        });
+    };
+
+
+    const handleSelectionChanged = (data: DollarType[]) => {
+        const ids = data.map(({ id }) => id) as number[];
+        setSelectedRows(ids);
     };
 
 
@@ -124,18 +133,22 @@ function App() {
             />
 
             <div>
+                <button onClick={handleRevomeSelected} disabled={!selectedRows.length}>Remove selected</button>
+                <button onClick={handleClearList}>Clear list</button>
+                <button onClick={handleUpdateList}>Update list</button>
+            </div>
+
+            <div>
                 <Table
                     colDefs={COL_DEFS}
                     rowData={dollars}
                     onCellValueChanged={(e: DollarType) => handleUpdateElement(e)}
+                    onSelectionChanged={(data: DollarType[]) => handleSelectionChanged(data)}
                 />
             </div>
 
-            <div>
-                <button onClick={handleUpdateList}>Update list</button>
-                <button onClick={handleClearList}>Clear list</button>
-            </div>
 
+            {/*
             <table>
                 <thead>
                     <tr>
@@ -158,6 +171,7 @@ function App() {
                 ))}
                 </tbody>
             </table>
+            */}
         </>
     );
 }
