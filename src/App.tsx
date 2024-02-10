@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AgAreaSeriesOptions, AgLineSeriesOptions } from "ag-charts-community";
+import { ColDef } from 'ag-grid-community';
 
 import { RootStateType } from './redux/reducers/rootReducer';
 import { getRequest } from './api';
@@ -28,11 +29,18 @@ const LINE_SERIES: AgLineSeriesOptions[] = [{
     yName: "Dollars"
 }];
 
+
+const COL_DEFS: ColDef[] = [
+    { field: 'value' },
+    { field: 'date' },
+];
+
+
 function App() {
     const dollars: DollarType[] = useSelector((state: RootStateType) => state.list.dollars);
     const dispatch = useDispatch();
 
-    const [startDate] = useState<string>("2024-02-01");
+    const [startDate] = useState<string>("2024-01-25");
     const [endDate] = useState<string>("2024-02-08");
 
 
@@ -100,7 +108,7 @@ function App() {
             />
 
             <div>
-                <Table />
+                <Table colDefs={COL_DEFS} rowData={dollars} />
             </div>
 
             <div>
