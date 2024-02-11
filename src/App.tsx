@@ -53,12 +53,17 @@ const COL_DEFS: ColDef[] = [
 ];
 
 
+const END_DATE = new Date();
+const START_DATE = new Date();
+START_DATE.setDate(END_DATE.getDate() - 30);
+
+
 function App() {
     const dollars: DollarType[] = useSelector((state: RootStateType) => state.list.dollars);
     const dispatch = useDispatch();
 
-    const [startDate, setStartDate] = useState<Date | null>(null);
-    const [endDate, setEndDate] = useState<Date | null>(null);
+    const [startDate, setStartDate] = useState<Date | null>(START_DATE);
+    const [endDate, setEndDate] = useState<Date | null>(END_DATE);
     const [selectedRows, setSelectedRows] = useState<number[]>([]);
 
     const [openModal1, setOpenModal1] = useState<boolean>(false);
