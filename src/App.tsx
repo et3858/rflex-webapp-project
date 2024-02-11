@@ -13,6 +13,7 @@ import LineChart from './components/ag_charts/LineChart';
 import Table from './components/ag-grid/Table';
 import DatePicker from './components/DatePicker';
 import Button from './components/Button';
+import ModalComponent from './components/Modal';
 
 import 'rsuite/dist/rsuite.min.css';
 import './App.css';
@@ -60,6 +61,9 @@ function App() {
     const [endDate, setEndDate] = useState<Date | null>(null);
     const [selectedRows, setSelectedRows] = useState<number[]>([]);
 
+    const [openModal1, setOpenModal1] = useState<boolean>(false);
+    const [openModal2, setOpenModal2] = useState<boolean>(false);
+
 
     const validDates = useMemo(() => {
         return (
@@ -94,8 +98,9 @@ function App() {
     };
 
 
-    const handleClearList = () => {
+    const clearList = () => {
         dispatch({ type: ReduxActionType.CLEAR_LIST });
+        setOpenModal1(false);
     };
 
 
@@ -108,13 +113,15 @@ function App() {
     };
 
 
-    const handleRevomeSelected = () => {
+    const removeSelected = () => {
         selectedRows.forEach(dollar_id => {
             dispatch({
                 type: ReduxActionType.REMOVE_ELEMENT,
                 dollar_id,
             });
         });
+
+        setOpenModal2(false);
     };
 
 
@@ -141,7 +148,7 @@ function App() {
                 <Button
                     color="orange"
                     appearance="primary"
-                    onClick={handleRevomeSelected}
+                    onClick={() => setOpenModal2(true)}
                     disabled={!selectedRows.length}
                 >
                     Remove seleted
@@ -150,7 +157,7 @@ function App() {
                 <Button
                     color="red"
                     appearance="primary"
-                    onClick={handleClearList}
+                    onClick={() => setOpenModal1(true)}
                     disabled={!dollars?.length}
                 >
                     Clear list
@@ -189,6 +196,22 @@ function App() {
                 rowData={dollars}
                 onCellValueChanged={(e: DollarType) => handleUpdateElement(e)}
                 onSelectionChanged={(data: DollarType[]) => handleSelectionChanged(data)}
+            />
+
+            <ModalComponent
+                title={'Rremove all data?'}
+                open={openModal1}
+                setOpen={setOpenModal1}
+                dangerMode={true}
+                onOkClick={() => clearList()}
+            />
+
+            <ModalComponent
+                title={`Remove ${selectedRows.length} selected rows?`}
+                open={openModal2}
+                setOpen={setOpenModal2}
+                dangerMode={true}
+                onOkClick={() => removeSelected()}
             />
         </>
     );
