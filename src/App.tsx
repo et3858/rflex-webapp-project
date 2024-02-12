@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AgLineSeriesOptions } from "ag-charts-community";
 import { ColDef, INumberCellEditorParams } from 'ag-grid-community';
+import { isAfter, isBefore } from 'rsuite/esm/utils/dateUtils';
 
 import { RootStateType } from './redux/reducers/rootReducer';
 import { getRequest } from './api';
@@ -73,7 +74,8 @@ function App() {
     const validDates = useMemo(() => {
         return (
             startDate instanceof Date && !isNaN(startDate.getTime()) &&
-            endDate instanceof Date && !isNaN(endDate.getTime())
+            endDate instanceof Date && !isNaN(endDate.getTime()) &&
+            isBefore(startDate, endDate)
         );
     }, [startDate, endDate]);
 
@@ -172,12 +174,14 @@ function App() {
                     value={startDate}
                     placeholder='Select a date'
                     onChange={((e: Date) => setStartDate(e))}
+                    shouldDisableDate={(e: Date) => isAfter(e, endDate as Date)}
                 />
 
                 <DatePicker
                     value={endDate}
                     placeholder='Select a date'
                     onChange={((e: Date) => setEndDate(e))}
+                    shouldDisableDate={(e: Date) => isBefore(e, startDate as Date)}
                 />
 
                 <Button
