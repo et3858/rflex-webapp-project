@@ -1,4 +1,4 @@
-import { Modal, Button, ButtonToolbar } from 'rsuite';
+import { Modal, Button } from 'rsuite';
 
 interface IProps {
     open: boolean,
@@ -31,10 +31,6 @@ function ModalComponent({
 
     return (
         <>
-            <ButtonToolbar>
-                <Button onClick={handleOpen}>Open</Button>
-            </ButtonToolbar>
-
             <Modal open={open} onClose={handleClose}>
                 <Modal.Header>
                     <Modal.Title>{title}</Modal.Title>
