@@ -21,7 +21,6 @@ function ModalComponent({
     cancelButtonText = "Cancel",
     dangerMode = false
 }: IProps) {
-    const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
 
