@@ -2,13 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AgLineSeriesOptions } from "ag-charts-community";
 import { ColDef, INumberCellEditorParams } from 'ag-grid-community';
-import { isAfter, isBefore } from 'rsuite/esm/utils/dateUtils';
 
 import { RootStateType } from './redux/reducers/rootReducer';
 import { getRequest } from './api';
 import { DollarType } from './types';
 import { ReduxActionType } from './enums/redux-enums';
-import { formatDateString } from './utils';
+import { isAfter, isBefore, formatDateString } from './utils';
 
 import LineChart from './components/ag_charts/LineChart';
 import Table from './components/ag-grid/Table';
