@@ -209,6 +209,7 @@ function App() {
                 setOpen={setOpenModal1}
                 dangerMode={true}
                 onOkClick={() => clearList()}
+                okButtonText={"Continue anyway"}
             />
 
             <ModalComponent
@@ -217,6 +218,7 @@ function App() {
                 setOpen={setOpenModal2}
                 dangerMode={true}
                 onOkClick={() => removeSelected()}
+                okButtonText={"Continue anyway"}
             />
         </>
     );
