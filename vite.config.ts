@@ -3,6 +3,25 @@ import react from '@vitejs/plugin-react-swc';
 import { visualizer } from 'rollup-plugin-visualizer';
 
 
+const AG_CHARTS_REACT = 'ag-charts-react';
+const AG_CHARTS_COMMUNITY = 'ag-charts-community';
+const AG_GRID_REACT = 'ag-grid-react';
+const AG_GRID_COMMUNITY = 'ag-grid-community';
+const RSUITE = 'rsuite';
+const REDUX_THINGS = [
+  '@reduxjs/toolkit',
+  'react-redux',
+  'redux',
+  'redux-persist',
+  'redux-thunk',
+];
+
+
+function _isIncluded(id: string, packageName: string | string[]): boolean {
+  return Array.isArray(packageName) ? packageName.some(e => id.includes(e)) : id.includes(packageName);
+}
+
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -11,46 +30,38 @@ export default defineConfig({
     visualizer() as PluginOption,
   ],
   build: {
-    // cssMinify: false,
     chunkSizeWarningLimit: 1300, // in kilobytes
     rollupOptions: {
       output: {
         manualChunks(id: string) {
-          // creating a chunk to 'ag-charts-react' deps. Reducing the vendor chunk size
-          if (id.includes('ag-charts-react')) {
-            return 'ag-charts-react';
+          // Creating a chunk to 'ag-charts-react' deps. Reducing the vendor chunk size
+          if (_isIncluded(id, AG_CHARTS_REACT)) {
+            return AG_CHARTS_REACT;
           }
 
-          if (id.includes('ag-grid-react')) {
-            return 'ag-grid-react';
+          if (_isIncluded(id, AG_GRID_REACT)) {
+            return AG_GRID_REACT;
           }
 
-          // One of the largest pieces of chunk to code-split
-          if (id.includes("ag-charts-community")) {
-            return 'ag-charts-community';
+          if (_isIncluded(id, AG_CHARTS_COMMUNITY)) {
+            return AG_CHARTS_COMMUNITY;
           }
 
-          // One of the largest pieces of chunk to code-split
-          if (id.includes("ag-grid-community")) {
-            return 'ag-grid-community';
+          // Creating the LARGEST chunk to 'ag-grid-community' deps. Reducing the vendor chunk size
+          if (_isIncluded(id, AG_GRID_COMMUNITY)) {
+            return AG_GRID_COMMUNITY;
           }
 
-          if (id.includes('rsuite')) {
-            return 'rsuite';
+          if (_isIncluded(id, RSUITE)) {
+            return RSUITE;
           }
 
-          // creating a chunk to redux deps. Reducing the vendor chunk size
-          if (
-            id.includes("@reduxjs/toolkit") ||
-            id.includes("react-redux") ||
-            id.includes("redux") ||
-            id.includes("redux-persist") ||
-            id.includes("redux-thunk")
-          ) {
+          // Creating a chunk to redux deps. Reducing the vendor chunk size
+          if (_isIncluded(id, REDUX_THINGS)) {
             return '@redux-things';
           }
         },
       },
     },
   },
-})
+});
