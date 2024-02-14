@@ -7,7 +7,7 @@ import { RootStateType } from './redux/reducers/rootReducer';
 import { getRequest } from './api';
 import { DollarType } from './types';
 import { ReduxActionType } from './enums/redux-enums';
-import { formatDateString } from './utils';
+import { isAfter, isBefore, formatDateString } from './utils';
 
 import LineChart from './components/ag_charts/LineChart';
 import Table from './components/ag-grid/Table';
@@ -73,7 +73,8 @@ function App() {
     const validDates = useMemo(() => {
         return (
             startDate instanceof Date && !isNaN(startDate.getTime()) &&
-            endDate instanceof Date && !isNaN(endDate.getTime())
+            endDate instanceof Date && !isNaN(endDate.getTime()) &&
+            isBefore(startDate, endDate)
         );
     }, [startDate, endDate]);
 
@@ -172,12 +173,14 @@ function App() {
                     value={startDate}
                     placeholder='Select a date'
                     onChange={((e: Date) => setStartDate(e))}
+                    shouldDisableDate={(e: Date) => isAfter(e, endDate as Date)}
                 />
 
                 <DatePicker
                     value={endDate}
                     placeholder='Select a date'
                     onChange={((e: Date) => setEndDate(e))}
+                    shouldDisableDate={(e: Date) => isBefore(e, startDate as Date)}
                 />
 
                 <Button
@@ -209,6 +212,7 @@ function App() {
                 setOpen={setOpenModal1}
                 dangerMode={true}
                 onOkClick={() => clearList()}
+                okButtonText={"Continue anyway"}
             />
 
             <ModalComponent
@@ -217,6 +221,7 @@ function App() {
                 setOpen={setOpenModal2}
                 dangerMode={true}
                 onOkClick={() => removeSelected()}
+                okButtonText={"Continue anyway"}
             />
         </>
     );
