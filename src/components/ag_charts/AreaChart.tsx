@@ -24,32 +24,24 @@ const AreaChart = ({ title, series, data }: IProps) => {
             connectMissingData: !series.connectMissingData,
         }));
 
-        updateChart(clone);
+        AgCharts.updateDelta(chartRef.current!.chart, clone);
+        setOptions(clone);
     }, [options]);
 
 
     useEffect(() => {
-        const clone = { ...options };
-        clone.data = data;
-
-        updateChart(clone);
+        setOptions(prev => ({ ...prev, data }));
     }, [data]);
-
-
-    const updateChart = (chartOptions: AgChartOptions) => {
-        AgCharts.updateDelta(chartRef.current!.chart, chartOptions);
-        setOptions(chartOptions);
-    };
 
 
     return (
         <div style={{ display: "flex", flexDirection: "column" }}>
             <div
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  gap: "0.5em",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    gap: "0.5em",
                 }}
             >
                 <button onClick={toggleConnectMissingData}>
