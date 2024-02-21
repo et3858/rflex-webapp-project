@@ -92,7 +92,7 @@ function App() {
         };
 
         try {
-            const response = await getRequest("", params);
+            const response = await getRequest<DollarType[]>("", params);
 
             dispatch({
                 type: ReduxActionType.FILL_LIST,
