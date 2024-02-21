@@ -172,14 +172,14 @@ function App() {
                 <DatePicker
                     value={startDate}
                     placeholder='Select a date'
-                    onChange={((e: Date) => setStartDate(e))}
+                    onChange={e => setStartDate(e)}
                     shouldDisableDate={(e: Date) => isAfter(e, endDate as Date)}
                 />
 
                 <DatePicker
                     value={endDate}
                     placeholder='Select a date'
-                    onChange={((e: Date) => setEndDate(e))}
+                    onChange={e => setEndDate(e)}
                     shouldDisableDate={(e: Date) => isBefore(e, startDate as Date)}
                 />
 
