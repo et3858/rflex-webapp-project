@@ -1,6 +1,6 @@
-import { DatePicker as RSuiteDatePicker } from 'rsuite';
+import { DatePicker as RSuiteDatePicker, DatePickerProps } from 'rsuite';
 
-function DatePicker(props: {[key: string]: any}) {
+function DatePicker(props: DatePickerProps) {
     return <RSuiteDatePicker oneTap isoWeek format={"yyyy-MM-dd"} {...props} />
 }
 

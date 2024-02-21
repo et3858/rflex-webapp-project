@@ -2,13 +2,13 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { AgChartsReact } from "ag-charts-react";
 import { AgAreaSeriesOptions, AgChartOptions, AgCharts } from "ag-charts-community";
 
-interface IProps {
+interface IProps<T> {
     title: string,
     series: AgAreaSeriesOptions[],
-    data: Array<any>,
+    data: T[],
 }
 
-const AreaChart = ({ title, series, data }: IProps) => {
+const AreaChart = <T,>({ title, series, data }: IProps<T>) => {
     const chartRef = useRef<AgChartsReact>(null);
     const [options, setOptions] = useState<AgChartOptions>({
         title: { text: title },

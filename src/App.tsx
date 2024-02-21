@@ -92,7 +92,7 @@ function App() {
         };
 
         try {
-            const response = await getRequest("", params);
+            const response = await getRequest<DollarType[]>("", params);
 
             dispatch({
                 type: ReduxActionType.FILL_LIST,
@@ -172,14 +172,14 @@ function App() {
                 <DatePicker
                     value={startDate}
                     placeholder='Select a date'
-                    onChange={((e: Date) => setStartDate(e))}
+                    onChange={e => setStartDate(e)}
                     shouldDisableDate={(e: Date) => isAfter(e, endDate as Date)}
                 />
 
                 <DatePicker
                     value={endDate}
                     placeholder='Select a date'
-                    onChange={((e: Date) => setEndDate(e))}
+                    onChange={e => setEndDate(e)}
                     shouldDisableDate={(e: Date) => isBefore(e, startDate as Date)}
                 />
 
@@ -193,13 +193,13 @@ function App() {
                 </Button>
             </div>
 
-            <LineChart
+            <LineChart<DollarType>
                 title={'My line chart of dollars'}
                 series={LINE_SERIES}
                 data={dollars}
             />
 
-            <Table
+            <Table<DollarType>
                 colDefs={COL_DEFS}
                 rowData={dollars}
                 onCellValueChanged={(e: DollarType) => handleUpdateElement(e)}

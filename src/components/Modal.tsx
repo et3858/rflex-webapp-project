@@ -2,9 +2,9 @@ import { Modal, Button } from 'rsuite';
 
 interface IProps {
     open: boolean,
-    setOpen: Function,
+    setOpen: (arg: boolean) => void,
     title: string,
-    onOkClick: Function,
+    onOkClick: () => void,
     text?: string,
     okButtonText?: string,
     cancelButtonText?: string,
@@ -63,7 +63,7 @@ function ModalComponent({
             </Modal>
         </>
     );
-};
+}
 
 
 export default ModalComponent;

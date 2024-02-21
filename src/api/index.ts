@@ -15,15 +15,11 @@ const OPTIONS: RequestInit = {
     referrerPolicy: "no-referrer",
 };
 
-interface IGetParams {
-    [key: string]: any
-}
-
-function _addQueryParams(params: IGetParams = {}) {
+function _addQueryParams(params = {}) {
     return (Object.keys(params).length === 0) ? "" : ("?" + new URLSearchParams(params));
 }
 
-export function getRequest(endpoint: string = "", params: IGetParams = {}): Promise<any> {
+export function getRequest<T>(endpoint: string = "", params: object = {}): Promise<T> {
     const path = URL_SOURCE + endpoint + _addQueryParams(params);
 
     return new Promise((resolve, reject) => {
