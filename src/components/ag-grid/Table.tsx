@@ -11,20 +11,20 @@ import 'ag-grid-community/styles/ag-theme-quartz.css';
 //     electric: boolean;
 // }
 
-interface IProps {
+interface IProps<T> {
     colDefs: ColDef[],
-    rowData: Array<{[key: string]: any}>,
-    onCellValueChanged?: Function,
-    onSelectionChanged?: Function,
+    rowData: Array<T>,
+    onCellValueChanged?: (args: T) => void,
+    onSelectionChanged?: (args: T[]) => void,
 }
 
 // Create new Table component
-function Table({
+function Table<T>({
     colDefs,
     rowData,
     onCellValueChanged,
     onSelectionChanged,
-}: IProps) {
+}: IProps<T>) {
     const handleCellValueChanged = (e: CellValueChangedEvent) => {
         if (typeof onCellValueChanged === 'function') {
             onCellValueChanged(e.data);

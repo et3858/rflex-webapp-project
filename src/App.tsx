@@ -193,13 +193,13 @@ function App() {
                 </Button>
             </div>
 
-            <LineChart
+            <LineChart<DollarType>
                 title={'My line chart of dollars'}
                 series={LINE_SERIES}
                 data={dollars}
             />
 
-            <Table
+            <Table<DollarType>
                 colDefs={COL_DEFS}
                 rowData={dollars}
                 onCellValueChanged={(e: DollarType) => handleUpdateElement(e)}

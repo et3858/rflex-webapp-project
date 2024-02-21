@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { AgChartsReact } from "ag-charts-react";
 import { AgChartOptions, AgLineSeriesOptions } from "ag-charts-community";
 
-interface IProps {
+interface IProps<T> {
     title: string,
     series: AgLineSeriesOptions[],
-    data: Array<any>,
+    data: T[],
 }
 
-const LineChart = ({ title, series, data }: IProps) => {
+const LineChart = <T,>({ title, series, data }: IProps<T>) => {
     const [options, setOptions] = useState<AgChartOptions>({
         title: { text: title },
         data: data,
