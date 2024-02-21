@@ -11,7 +11,7 @@ const initialState: IState = {
 
 interface IAction {
     type: ReduxActionType,
-    payload?: any,
+    payload?: DollarType | DollarType[],
     dollar_id?: number,
 }
 
@@ -20,7 +20,7 @@ export const listReducer = (state = initialState, action: IAction) => {
 
     switch (action.type) {
         case ReduxActionType.FILL_LIST:
-            return { dollars: [ ...action.payload ] };
+            return { dollars: [ ...(action.payload as DollarType[]) ] };
         case ReduxActionType.CLEAR_LIST:
             return { dollars: [] };
         case ReduxActionType.UPDATE_ELEMENT:
