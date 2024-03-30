@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AgLineSeriesOptions } from "ag-charts-community";
 import { ColDef, INumberCellEditorParams } from 'ag-grid-community';
@@ -65,6 +65,7 @@ function App() {
     const [startDate, setStartDate] = useState<Date | null>(START_DATE);
     const [endDate, setEndDate] = useState<Date | null>(END_DATE);
     const [selectedRows, setSelectedRows] = useState<number[]>([]);
+    const [loaded, setLoaded] = useState<boolean>(false);
 
     const [openModal1, setOpenModal1] = useState<boolean>(false);
     const [openModal2, setOpenModal2] = useState<boolean>(false);
@@ -79,13 +80,7 @@ function App() {
     }, [startDate, endDate]);
 
 
-    useEffect(() => {
-        if (dollars.length === 0)
-            startRequest();
-    }, []);
-
-
-    const startRequest = async () => {
+    const startRequest = useCallback(async () => {
         const params = {
             start_date: formatDateString(startDate as Date),
             end_date: formatDateString(endDate as Date),
@@ -101,7 +96,16 @@ function App() {
         } catch (err) {
             console.warn(err);
         }
-    };
+    }, [dispatch, startDate, endDate]);
+
+
+    useEffect(() => {
+        if (!loaded && dollars.length === 0) {
+            startRequest();
+        }
+
+        setLoaded(true);
+    }, [loaded, dollars, startRequest]);
 
 
     const clearList = () => {
